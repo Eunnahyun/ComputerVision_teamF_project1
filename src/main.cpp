@@ -46,6 +46,12 @@ int main(int, char**) {
 			break;
 		}
 
+		/*Mat gray;
+		cvtColor(frame, gray, COLOR_BGR2GRAY);
+		cvtColor(gray, gray, COLOR_GRAY2BGR);
+
+		imshow("grayvideo", gray);*/
+
 		Mat YCbCr;
 		cvtColor(frame, YCbCr, COLOR_BGR2YCrCb);
 
@@ -77,15 +83,21 @@ Mat getMask(const Mat aftercvt) {
 	int result_video_col = aftercvt.cols;
 
 	for (int i = 0; i < result_video_row; i++) {
+		uchar* Plane_Y = planes[0].ptr<uchar>(i);
 		uchar* Plane_Cr = planes[1].ptr<uchar>(i); 
 		uchar* Plane_Cb = planes[2].ptr<uchar>(i);
 		
 		for (int j = 0; j < result_video_col; j++) {
-			if ((Cr_min < Plane_Cr[j]) && (Plane_Cr[j] < Cr_max) && (Cb_min < Plane_Cb[j]) && (Plane_Cb[j] < Cb_max)) {
+
+			if (Plane_Y[j] <= 128) mask.at<uchar>(i, j) = 0; 
+
+			else if ((Cr_min < Plane_Cr[j]) && (Plane_Cr[j] < Cr_max) && (Cb_min < Plane_Cb[j]) && (Plane_Cb[j] < Cb_max)) {
 				mask.at<uchar>(i, j) = 255;
 			}
 		}
 	}
+
+	//erode(mask, mask, Mat(3, 3, CV_8U, Scalar(1)), Point(-1, -1), 2);
 
 	return mask;
 }
