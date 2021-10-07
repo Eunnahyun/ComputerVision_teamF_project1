@@ -108,22 +108,22 @@ void pre_irisFount(const Mat src, const Mat origin) {
 	Mat tmp;
 
 	double minVal = 0;
-	minMaxLoc(src, &minVal, NULL, NULL, NULL); //ÃÖ¼Ú°ª Ã£±â
+	minMaxLoc(src, &minVal, NULL, NULL, NULL); //ìµœì†Ÿê°’ ì°¾ê¸°
 
-	threshold(src, tmp, minVal + 10, 255, THRESH_BINARY_INV); //src¿¡¼­ tmpº¸´Ù Å©¸é 
+	threshold(src, tmp, minVal + 10, 255, THRESH_BINARY_INV); //srcì—ì„œ tmpë³´ë‹¤ í¬ë©´ 
 
 
 	vector<Vec4i> hierarchy;
 	vector<vector<Point2i> > contours;
-	findContours(tmp, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE); //À±°û¼± Ã£±â
+	findContours(tmp, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE); //ìœ¤ê³½ì„  ì°¾ê¸°
 
 	//contour
 	int maxArea = 0;
 	Rect maxContourRect;
 	for (int i = 0; i < contours.size(); i++)
 	{
-		int area = contourArea(contours[i]); //ÄÁÅõ¾î·Î µÑ·¯½×ÀÎ ¸éÀû
-		Rect rect = boundingRect(contours[i]); //ÄÁÅõ¾î¿µ¿ª¿¡ ¿ÜÁ¢ÇÏ´Â Á÷»ç°¢Çü
+		int area = contourArea(contours[i]); //ì»¨íˆ¬ì–´ë¡œ ë‘˜ëŸ¬ìŒ“ì¸ ë©´ì 
+		Rect rect = boundingRect(contours[i]); //ì»¨íˆ¬ì–´ì˜ì—­ì— ì™¸ì ‘í•˜ëŠ” ì§ì‚¬ê°í˜•
 		double squareKoef = ((double)rect.width) / rect.height;
 
 		//contour shape
