@@ -55,7 +55,7 @@ int main(int, char**) {
 		erode(mask, mask, Mat(3, 3, CV_8U, Scalar(1)), Point(-1, -1), 2);
 		double radius;
 		Point center = getFaceCenter(mask, radius);
-		// ¿µ¿ª ±×¸®±â
+		// ì˜ì—­ ê·¸ë¦¬ê¸°
 		circle(frame, center, (int)(radius + 40.5), Scalar(255, 0, 0), 2);
 
 		//=============eye detection=============//
@@ -121,24 +121,24 @@ Point getFaceCenter(const Mat& mask, double& radius) {
 
 void eyeDetection(const Mat img, const Mat origin) {
 
-	Mat tmp; //ÀÓ°è°ª
+	Mat tmp; //ì„ê³„ê°’
 
 	double minVal = 0;
-	minMaxLoc(img, &minVal, NULL, NULL, NULL); //ÃÖ¼Ú°ª Ã£±â
+	minMaxLoc(img, &minVal, NULL, NULL, NULL); //ìµœì†Ÿê°’ ì°¾ê¸°
 
-	threshold(img, tmp, minVal + 10, 255, THRESH_BINARY_INV); //src¿¡¼­ minVal+10º¸´Ù Å©¸é 255, ÀÛÀ¸¸é 0 tmp¿¡ ÀúÀå
+	threshold(img, tmp, minVal + 10, 255, THRESH_BINARY_INV); //srcì—ì„œ minVal+10ë³´ë‹¤ í¬ë©´ 255, ì‘ìœ¼ë©´ 0 tmpì— ì €ì¥
 
 	vector<Vec4i> hierarchy;
 	vector<vector<Point2i> > contours;
-	findContours(tmp, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE); //À±°û¼± Ã£±â
+	findContours(tmp, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE); //ìœ¤ê³½ì„  ì°¾ê¸°
 
 	//contour
 	int maxArea = 0;
 	Rect maxContourRect;
 	for (int i = 0; i < contours.size(); i++) {
-		int area = contourArea(contours[i]); //ÄÁÅõ¾î·Î µÑ·¯½×ÀÎ ¸éÀû
+		int area = contourArea(contours[i]); //ì»¨íˆ¬ì–´ë¡œ ë‘˜ëŸ¬ìŒ“ì¸ ë©´ì 
 
-		Rect rect = boundingRect(contours[i]); //ÄÁÅõ¾î¿µ¿ª¿¡ ¿ÜÁ¢ÇÏ´Â Á÷»ç°¢Çü
+		Rect rect = boundingRect(contours[i]); //ì»¨íˆ¬ì–´ì˜ì—­ì— ì™¸ì ‘í•˜ëŠ” ì§ì‚¬ê°í˜•
 		double squareKoef = ((double)rect.width) / rect.height;
 
 		//contour shape
